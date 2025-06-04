@@ -1,5 +1,10 @@
-@import 'tailwindcss';
-@plugin '@tailwindcss/forms';
-@plugin '@tailwindcss/typography';
+/* 1) Bulma first (so we can override it later if needed) */
 @import 'bulma/css/bulma.min.css';
 @import 'bulma-carousel/dist/css/bulma-carousel.min.css';
+
+@import '@fortawesome/fontawesome-free/css/all.min.css';
+
+/* 2) Tailwind core directives */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;

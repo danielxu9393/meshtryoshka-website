@@ -8,50 +8,48 @@
     const imageComparisons = [
       {
         id: 'comp1',
-        before: '/ours_render/bicycle/_DSC8679.JPG',
-        after: '/ours_render/bicycle/_DSC8872.JPG',
-        captionBefore: '2D Gaussian Splatting',
+        before: '/3dgs_results/stump/test/ours_30000/renders/_DSC9221.png',
+        after: '/ours_render/stump/_DSC9221.JPG',
+        captionBefore: '3D Gaussian Splatting',
         captionAfter: 'Meshtryoshka (Ours)'
       },
       {
         id: 'comp2',
-        before: '/ours_render/bicycle/_DSC8679.JPG',
-        after: '/ours_render/bicycle/_DSC8872.JPG',
-        captionBefore: '2D Gaussian Splatting',
+        before: '/3dgs_results/bicycle/test/ours_30000/renders/_DSC8752.png',
+        after: '/ours_render/bicycle/_DSC8752.JPG',
+        captionBefore: '3D Gaussian Splatting',
         captionAfter: 'Meshtryoshka (Ours)'
       },
-      // …add more items as needed
+      {
+        id: 'comp3',
+        before: '/3dgs_results/bonsai/test/ours_30000/renders/DSCF5605.png',
+        after: '/ours_render/bonsai/DSCF5605.JPG',
+        captionBefore: '3D Gaussian Splatting',
+        captionAfter: 'Meshtryoshka (Ours)'
+      },
+      {
+        id: 'comp4',
+        before: '/3dgs_results/garden/test/ours_30000/renders/DSC08084.png',
+        after: '/ours_render/garden/DSC08084.JPG',
+        captionBefore: '3D Gaussian Splatting',
+        captionAfter: 'Meshtryoshka (Ours)'
+      },
+      {
+        id: 'comp5',
+        before: '/3dgs_results/room/test/ours_30000/renders/DSCF4675.png',
+        after: '/ours_render/room/DSCF4675.JPG',
+        captionBefore: '3D Gaussian Splatting',
+        captionAfter: 'Meshtryoshka (Ours)'
+      },
+      {
+        id: 'comp6',
+        before: '/3dgs_results/kitchen/test/ours_30000/renders/DSCF0664.png',
+        after: '/ours_render/kitchen/DSCF0664.JPG',
+        captionBefore: '3D Gaussian Splatting',
+        captionAfter: 'Meshtryoshka (Ours)'
+      },
     ];
   
-    // (B) Example data for Trajectory View videos
-    const trajectoryVideos = [
-      { src: 'final_videos/surface_1.5__DSC8768.JPG.mp4', title: 'Bicycle' },
-      { src: 'final_videos/surface_1.5_DSCF5565.JPG.mp4', title: 'Bonsai' },
-      { src: 'final_videos/surface_0.2__DSC9056.JPG.mp4', title: 'Flowers' },
-      { src: 'final_videos/surface_1.5__DSC9213.JPG.mp4', title: 'Stump' },
-      { src: 'final_videos/surface_1.5_DSC07956.JPG.mp4', title: 'Garden' },
-      { src: 'final_videos/surface_1.5_DSCF0656.JPG.mp4', title: 'Kitchen' }
-    ];
-  
-    // (C) Example data for Optimization Progress videos
-    const optProgressVideos = [
-      { src: 'final_videos/_DSC8679.mp4', title: 'Bicycle' },
-      { src: 'final_videos/DSCF6017.mp4', title: 'Counter' },
-      { src: 'final_videos/_DSC9040.mp4', title: 'Flowers' },
-      { src: 'final_videos/_DSC9293.mp4', title: 'Stump' },
-      { src: 'final_videos/DSC07956.mp4', title: 'Garden' },
-      { src: 'final_videos/DSCF0656.mp4', title: 'Kitchen' }
-    ];
-  
-    // (D) Example data for NeRF Results videos
-    const nerfVideos = [
-      { src: 'final_videos/lego_trajectory.mp4', title: 'Lego Trajectory' },
-      { src: 'final_videos/chair_trajectory.mp4', title: 'Chair Trajectory' },
-      { src: 'final_videos/ship_trajectory.mp4', title: 'Ship Trajectory' },
-      { src: 'final_videos/lego_opt.mp4', title: 'Lego Progress' },
-      { src: 'final_videos/chair_opt.mp4', title: 'Chair Progress' },
-      { src: 'final_videos/ship_opt.mp4', title: 'Ship Progress' }
-    ];
   
     // (E) onMount runs only in the browser → safe from SSR errors
     onMount(async () => {
@@ -78,13 +76,6 @@
         pauseOnHover: true
       });
   
-      bulmaCarousel.attach('#nerf-carousel', {
-        slidesToScroll: 1,
-        slidesToShow: 3,
-        infinite: true,
-        autoplay: false,
-        pauseOnHover: true
-      });
     });
   </script>
   
@@ -129,28 +120,108 @@
                 <span><sup>³</sup> Runway AI, Inc.</span>
               </div>
               <div class="buttons is-centered">
-                <a href="meshtryoshka_high.pdf" class="button is-dark is-rounded">
-                  <span class="icon"><i class="fas fa-file-pdf"></i></span>
-                  <span>Paper (High-Res PDF)</span>
+                <a href="meshtryoshka.pdf" class="button is-dark is-rounded">
+                  <!-- <span class="icon"><i class="fas fa-file-pdf"></i></span> -->
+                  <span class="icon"><i class="ai ai-arxiv"></i></span>
+                  <span>Arxiv</span>
                 </a>
-                <a href="meshtryoshka_low.pdf" class="button is-dark is-rounded">
-                  <span class="icon"><i class="fas fa-file-pdf"></i></span>
-                  <span>Paper (Low-Res PDF)</span>
-                </a>
-                <a href="https://github.com/yourusername/meshtryoshka" class="button is-dark is-rounded">
+                <a href="https://github.com/dcharatan/triangle-splatting" class="button is-dark is-rounded">
                   <span class="icon"><i class="fab fa-github"></i></span>
                   <span>Code</span>
                 </a>
-                <a href="datasets/meshtryoshka_scenes.zip" class="button is-dark is-rounded">
-                  <span class="icon"><i class="fas fa-paperclip"></i></span>
-                  <span>Scenes (ZIP)</span>
-                </a>
-                <a href="evaluation/meshtryoshka_results.zip" class="button is-dark is-rounded">
+                <a href="ours_render.zip" class="button is-dark is-rounded">
                   <span class="icon"><i class="far fa-clipboard"></i></span>
                   <span>Results (ZIP)</span>
                 </a>
               </div>
             </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- (3) Trajectory View Carousel -->
+    <section class="hero is-light is-small">
+      <div class="hero-body">
+        <div class="container">
+          <!-- 
+            The “results-carousel” class is optional—only here so you can
+            write custom CSS if you want to override the Bulma-Carousel defaults.
+          -->
+          <h2 class="title is-3 has-text-centered mb-4">Videos</h2>
+
+          <div id="trajectory-carousel" class="carousel results-carousel">
+            <div class="item">
+            <video class="is-fullwidth" autoplay muted loop controls preload="metadata">
+                <source src="final_videos/surface_1.5_DSC07956.JPG.mp4" type="video/mp4" />
+            </video>
+            </div>
+            <div class="item">
+            <video class="is-fullwidth" autoplay muted loop controls preload="metadata">
+                <source src="final_videos/surface_1.5__DSC9213.JPG.mp4" type="video/mp4" />
+            </video>
+            </div>
+            <div class="item">
+            <video class="is-fullwidth" autoplay muted loop controls preload="metadata">
+                <source src="final_videos/surface_0.2__DSC9056.JPG.mp4" type="video/mp4" />
+            </video>
+            </div>
+            <div class="item">
+              <video class="is-fullwidth" autoplay muted loop controls preload="metadata">
+                <source src="final_videos/surface_1.5__DSC8768.JPG.mp4" type="video/mp4" />
+              </video>
+            </div>
+            <!-- <div class="item">
+              <video class="is-fullwidth" autoplay muted loop controls preload="metadata">
+                <source src="final_videos/surface_1.5_DSCF5565.JPG.mp4" type="video/mp4" />
+              </video>
+            </div> -->
+            <!-- <div class="item">
+              <video class="is-fullwidth" autoplay muted loop controls preload="metadata">
+                <source src="final_videos/surface_1.5_DSCF0656.JPG.mp4" type="video/mp4" />
+              </video>
+            </div> -->
+          </div>
+        </div>
+      </div>
+    </section>
+  
+    <!-- (4) Optimization Progress Carousel -->
+    <section class="hero is-light is-small">
+      <div class="hero-body">
+        <div class="container">
+            <h2 class="title is-3 has-text-centered mb-4">Optimization Progress</h2>
+          <div id="opt-progress-carousel" class="carousel results-carousel">
+            <div class="item">
+              <video class="is-fullwidth" autoplay muted loop controls preload="metadata">
+                <source src="final_videos/_DSC8679.mp4" type="video/mp4" />
+              </video>
+            </div>
+            <div class="item">
+              <video class="is-fullwidth" autoplay muted loop controls preload="metadata">
+                <source src="final_videos/DSCF6017.mp4" type="video/mp4" />
+              </video>
+            </div>
+            <div class="item">
+              <video class="is-fullwidth" autoplay muted loop controls preload="metadata">
+                <source src="final_videos/_DSC9040.mp4" type="video/mp4" />
+              </video>
+            </div>
+            <div class="item">
+              <video class="is-fullwidth" autoplay muted loop controls preload="metadata">
+                <source src="final_videos/_DSC9293.mp4" type="video/mp4" />
+              </video>
+            </div>
+            <!-- <div class="item">
+              <video class="is-fullwidth" autoplay muted loop controls preload="metadata">
+                <source src="final_videos/DSC07956.mp4" type="video/mp4" />
+              </video>
+            </div>
+            <div class="item">
+              <video class="is-fullwidth" autoplay muted loop controls preload="metadata">
+                <source src="final_videos/DSCF0656.mp4" type="video/mp4" />
+              </video>
+            </div> -->
           </div>
         </div>
       </div>
@@ -199,142 +270,52 @@
         </div>
       </div>
     </section>
+
+        <!-- (1) Methods Section -->
+        <section class="section">
+          <div class="container is-max-desktop">
+            <div class="columns is-centered has-text-centered">
+              <div class="column">
+                <h2 class="title is-3">Overview</h2>
+                <div class="content has-text-justified">
+                  <img
+                    src="/figures/figure_marching_cubes/figure_marching_cubes.png"
+                    alt="Teaser Figure"
+                    style="width: 100%; height: auto; display: block;"
+                  />
+
+                  <img
+                    src="/figures/figure_teaser/figure_teaser.png"
+                    alt="Teaser Figure"
+                    style="width: 100%; height: auto; display: block;"
+                  />
+                  <p>
+                    Differentiable rendering has emerged as a powerful approach for 3D reconstruction
+                    and novel view synthesis. Today, state-of-the-art differentiable rendering methods
+                    combine a variety of custom representations of 3D geometry and appearance with
+                    specialized renderers. However, most downstream tasks in computer graphics rely on
+                    3D meshes, which provide superior portability, allow for hardware-accelerated rendering,
+                    and are at the core of most computer graphics workflows. While prior work has attempted
+                    differentiable rendering with mesh representations, these approaches are limited to
+                    object-centric scenes and fail to reconstruct large-scale, unbounded scenes.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
   
     <!-- (2) Image-Comparisons (unchanged) -->
     <section class="section">
-      <div class="container is-max-desktop">
+      <!-- <div class="container is-max-desktop"> -->
+      <div class="container is-fluid">
         <h2 class="title is-3 has-text-centered mb-4">Image Comparisons</h2>
         <ComparisonGrid comparisons={imageComparisons} columns="2" />
       </div>
     </section>
   
-    <!-- (3) Trajectory View Carousel -->
-    <section class="hero is-light is-small">
-      <div class="hero-body">
-        <div class="container">
-          <!-- 
-            The “results-carousel” class is optional—only here so you can
-            write custom CSS if you want to override the Bulma-Carousel defaults.
-          -->
-          <h2 class="title is-3 has-text-centered mb-4">Trajectory View</h2>
 
-          <div id="trajectory-carousel" class="carousel results-carousel">
-            <div class="item">
-              <video class="is-fullwidth" autoplay muted loop controls preload="metadata">
-                <source src="final_videos/surface_1.5__DSC8768.JPG.mp4" type="video/mp4" />
-              </video>
-            </div>
-            <div class="item">
-              <video class="is-fullwidth" autoplay muted loop controls preload="metadata">
-                <source src="final_videos/surface_1.5_DSCF5565.JPG.mp4" type="video/mp4" />
-              </video>
-            </div>
-            <div class="item">
-              <video class="is-fullwidth" autoplay muted loop controls preload="metadata">
-                <source src="final_videos/surface_0.2__DSC9056.JPG.mp4" type="video/mp4" />
-              </video>
-            </div>
-            <div class="item">
-              <video class="is-fullwidth" autoplay muted loop controls preload="metadata">
-                <source src="final_videos/surface_1.5__DSC9213.JPG.mp4" type="video/mp4" />
-              </video>
-            </div>
-            <div class="item">
-              <video class="is-fullwidth" autoplay muted loop controls preload="metadata">
-                <source src="final_videos/surface_1.5_DSC07956.JPG.mp4" type="video/mp4" />
-              </video>
-            </div>
-            <div class="item">
-              <video class="is-fullwidth" autoplay muted loop controls preload="metadata">
-                <source src="final_videos/surface_1.5_DSCF0656.JPG.mp4" type="video/mp4" />
-              </video>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
   
-    <!-- (4) Optimization Progress Carousel -->
-    <section class="hero is-light is-small">
-      <div class="hero-body">
-        <div class="container">
-            <h2 class="title is-3 has-text-centered mb-4">Optimization Progress</h2>
-          <div id="opt-progress-carousel" class="carousel results-carousel">
-            <div class="item">
-              <video class="is-fullwidth" autoplay muted loop controls preload="metadata">
-                <source src="final_videos/_DSC8679.mp4" type="video/mp4" />
-              </video>
-            </div>
-            <div class="item">
-              <video class="is-fullwidth" autoplay muted loop controls preload="metadata">
-                <source src="final_videos/DSCF6017.mp4" type="video/mp4" />
-              </video>
-            </div>
-            <div class="item">
-              <video class="is-fullwidth" autoplay muted loop controls preload="metadata">
-                <source src="final_videos/_DSC9040.mp4" type="video/mp4" />
-              </video>
-            </div>
-            <div class="item">
-              <video class="is-fullwidth" autoplay muted loop controls preload="metadata">
-                <source src="final_videos/_DSC9293.mp4" type="video/mp4" />
-              </video>
-            </div>
-            <div class="item">
-              <video class="is-fullwidth" autoplay muted loop controls preload="metadata">
-                <source src="final_videos/DSC07956.mp4" type="video/mp4" />
-              </video>
-            </div>
-            <div class="item">
-              <video class="is-fullwidth" autoplay muted loop controls preload="metadata">
-                <source src="final_videos/DSCF0656.mp4" type="video/mp4" />
-              </video>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  
-    <!-- (5) NeRF Results Carousel -->
-    <section class="hero is-light is-small">
-      <div class="hero-body">
-        <div class="container">
-          <h2 class="title is-3 has-text-centered mb-4">NeRF Results</h2>
-          <div id="nerf-carousel" class="carousel results-carousel">
-            <div class="item">
-              <video class="is-fullwidth" autoplay muted loop controls preload="metadata">
-                <source src="final_videos/lego_trajectory.mp4" type="video/mp4" />
-              </video>
-            </div>
-            <div class="item">
-              <video class="is-fullwidth" autoplay muted loop controls preload="metadata">
-                <source src="final_videos/chair_trajectory.mp4" type="video/mp4" />
-              </video>
-            </div>
-            <div class="item">
-              <video class="is-fullwidth" autoplay muted loop controls preload="metadata">
-                <source src="final_videos/ship_trajectory.mp4" type="video/mp4" />
-              </video>
-            </div>
-            <div class="item">
-              <video class="is-fullwidth" autoplay muted loop controls preload="metadata">
-                <source src="final_videos/lego_opt.mp4" type="video/mp4" />
-              </video>
-            </div>
-            <div class="item">
-              <video class="is-fullwidth" autoplay muted loop controls preload="metadata">
-                <source src="final_videos/chair_opt.mp4" type="video/mp4" />
-              </video>
-            </div>
-            <div class="item">
-              <video class="is-fullwidth" autoplay muted loop controls preload="metadata">
-                <source src="final_videos/ship_opt.mp4" type="video/mp4" />
-              </video>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
   </main>
   
   <style>
@@ -355,4 +336,18 @@
     .results-carousel video {
     margin: 0;
     }
+
+      /* Replace 3/2 with your PDF’s actual width / height ratio */
+  .pdf-wrapper {
+    width: 100%;
+    aspect-ratio: 3 / 2; /* e.g. 1200×800 → 3/2 → 1.5 */
+    /* you can optionally add max-width if you don’t want it to grow beyond some value:
+       max-width: 800px; */
+  }
+  .pdf-content {
+    width: 100%;
+    height: 100%;
+    border: none;
+    display: block;
+  }
   </style>
