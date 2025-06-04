@@ -1,0 +1,5 @@
+@import 'tailwindcss';
+@plugin '@tailwindcss/forms';
+@plugin '@tailwindcss/typography';
+@import 'bulma/css/bulma.min.css';
+@import 'bulma-carousel/dist/css/bulma-carousel.min.css';

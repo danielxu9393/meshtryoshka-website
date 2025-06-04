@@ -1,0 +1,185 @@
+/* ============================================
+   beforeAfter.css
+   (Handle + arrows + split line; children required)
+   ============================================ */
+
+/* 1) CSS variables for easy tweaking */
+:root {
+    /* Handle diameter (~32px × 1.3 = 41.6px to be 30% bigger) */
+    --handle-size: 41.6px;
+  
+    /* Thickness of the vertical line */
+    --line-thickness: 2px;
+  
+    /* Half-height of each arrow (6px = 12px tall arrow) */
+    --arrow-size: 6px;
+  
+    /* Horizontal offset from handle center to arrow tip */
+    --arrow-gap: 10px;
+  }
+  
+  /* 2) Container & Wrapper */
+  .small-bal-container {
+    position: relative;               /* absolute children won’t collapse it */ /*  */
+    width: 100%;
+    aspect-ratio: 16 / 9;             /* force 16:9 box so it never goes to zero height */ /*  */
+    overflow: hidden;
+    cursor: ew-resize;                /* indicate horizontal dragging */ /*  */
+  }
+  .bal-wrapper {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+  }
+  
+  /* 3) “After” & “Before” Layers */
+  .bal-after {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: 10;                      /* behind .bal-before */ /*  */
+  }
+  .bal-before {
+    position: absolute;
+    top: 0; left: 0;
+    width: 50%;                       /* initial 50%; JS sets X% on drag */ /*  */
+    height: 100%;
+    overflow: hidden;
+    z-index: 20;                      /* above .bal-after */
+  }
+  .bal-before-inset {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+  }
+  .bal-after img,
+  .bal-before img {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;                /* fill while preserving aspect ratio */ /*  */
+    object-position: center;
+    user-select: none;
+    -webkit-user-drag: none;
+  }
+  
+  /* 4) Captions */
+  .bal-beforePosition,
+  .bal-afterPosition {
+    position: absolute;
+    bottom: 0.5rem;                   /* 0.5rem (≈8px) above bottom edge */ /*  */
+    background: rgba(18,18,18,0.8);
+    color: #fff;
+    padding: 0.25rem 0.75rem;
+    border-radius: 0.2rem;
+    font-size: 0.9rem;
+    pointer-events: none;             /* let drags/clicks pass through */ /*  */
+    z-index: 30;                      /* over images, under handle */ /*  */
+  }
+  .beforeLabel  { left: 0.5rem;  }
+  .afterLabel   { right: 0.5rem; }
+  
+  /* 5) HANDLE—transparent center, white ring, gradient split line, plus two arrow children */
+  .bal-handle {
+    position: absolute;
+    top: 50%; left: 50%;
+  
+    width: var(--handle-size);
+    height: var(--handle-size);
+    margin-left: calc(var(--handle-size) / -2);  /* center horizontally */ /*  */
+    margin-top:  calc(var(--handle-size) / -2);  /* center vertically */   /*  */
+  
+    background: rgba(255,255,255,0);             /* fully transparent interior */ /*  */
+    border: 2px solid #fff;                      /* white circle border */        /*  */
+    border-radius: 50%;
+    box-shadow: 0 0 5px rgba(0,0,0,0.5);
+    z-index: 40;                                 /* on top of everything else */  /*  */
+    pointer-events: none;                        /* allow container to capture drags */ /*  */
+  
+    transition: transform .2s ease;              /* smooth 125% scale on active */ /*  */
+  }
+  .bal-handle:active {
+    transform: scale(1.25);                      /* 125% on click, like Bulma-Slider thumb */ /*  */
+  }
+  
+  /* 5a) ::before draws a FULL vertical line, but with a transparent “window” where the handle sits */
+  .bal-handle::before {
+    content: "";
+    position: absolute;
+  
+    /* stretch far above and below */
+    top: -100vh;                                
+    bottom: -100vh;                             
+  
+    left: 50%;
+    transform: translateX(-50%);
+  
+    width: var(--line-thickness);                /* 2px wide */           /*  */
+  
+    /*
+      Use a linear gradient so that:
+      • From 0% → (50% – handle/2): white
+      • From (50% – handle/2) → (50% + handle/2): transparent
+      • From (50% + handle/2) → 100%: white
+      That “cutout” exactly matches the handle’s diameter, so no white line appears inside the circle.
+    */
+    background: linear-gradient(
+      to bottom,
+      #fff 0%,
+      #fff calc(50% - (var(--handle-size) / 2)),
+      transparent calc(50% - (var(--handle-size) / 2)),
+      transparent calc(50% + (var(--handle-size) / 2)),
+      #fff calc(50% + (var(--handle-size) / 2)),
+      #fff 100%
+    );
+    z-index: 35;                                 /* above images, under arrows (z:36) */
+  }
+  
+  /* 5b) TWO WHITE ARROWS, each drawn by its own child DIV */
+  
+  /* (i) Left arrow (white triangle pointing left) */
+  .handle-left-arrow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) translateX(calc(-1 * var(--arrow-gap))); 
+      /* center vertically & shift left by arrow-gap */ /*  */
+  
+    width: 0;
+    height: 0;
+    border-top: var(--arrow-size) solid transparent;    /* e.g. 6px up */ /*  */
+    border-bottom: var(--arrow-size) solid transparent; /* e.g. 6px down */ /*  */
+    border-right: var(--arrow-size) solid #fff;          /* white → triangle pointing left */ /*  */
+    z-index: 36;                                         /* above line, under ring */ 
+  }
+  
+  /* (ii) Right arrow (white triangle pointing right) */
+  .handle-right-arrow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) translateX(var(--arrow-gap)); 
+      /* center & shift right */ /*  */
+  
+    width: 0;
+    height: 0;
+    border-top: var(--arrow-size) solid transparent;    /* 6px up */  /*  */
+    border-bottom: var(--arrow-size) solid transparent; /* 6px down */ /*  */
+    border-left: var(--arrow-size) solid #fff;           /* white → triangle pointing right */ /*  */
+    z-index: 36;
+  }
+  
+  /* 6) OPTIONAL OVERRIDES: tweak any variable on .bal-handle if needed */
+  /*
+  .bal-handle {
+    --handle-size: 32px;       // exactly 32px circle
+    --line-thickness: 1px;     // thinner 1px line
+    --arrow-size: 4px;         // smaller arrows (4px half-height = 8px tall)
+    --arrow-gap: 4px;          // arrows 8px apart from center
+  }
+  */
