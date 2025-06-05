@@ -3,48 +3,49 @@
 <script lang="ts">
     import ComparisonGrid from '$lib/components/ComparisonGrid.svelte';
     import { onMount } from 'svelte';
+    import { base } from '$app/paths';
   
     // (A) Example data for image-comparison slider (unchanged)
     const imageComparisons = [
       {
         id: 'comp1',
-        before: '/3dgs_results/stump/test/ours_30000/renders/_DSC9221.png',
-        after: '/ours_render/stump/_DSC9221.JPG',
+        before: '3dgs_results/stump/test/ours_30000/renders/_DSC9221.png',
+        after: 'ours_render/stump/_DSC9221.JPG',
         captionBefore: '3D Gaussian Splatting',
         captionAfter: 'Meshtryoshka (Ours)'
       },
       {
         id: 'comp2',
-        before: '/3dgs_results/bicycle/test/ours_30000/renders/_DSC8752.png',
-        after: '/ours_render/bicycle/_DSC8752.JPG',
+        before: '3dgs_results/bicycle/test/ours_30000/renders/_DSC8752.png',
+        after: 'ours_render/bicycle/_DSC8752.JPG',
         captionBefore: '3D Gaussian Splatting',
         captionAfter: 'Meshtryoshka (Ours)'
       },
       {
         id: 'comp3',
-        before: '/3dgs_results/bonsai/test/ours_30000/renders/DSCF5605.png',
-        after: '/ours_render/bonsai/DSCF5605.JPG',
+        before: '3dgs_results/bonsai/test/ours_30000/renders/DSCF5605.png',
+        after: 'ours_render/bonsai/DSCF5605.JPG',
         captionBefore: '3D Gaussian Splatting',
         captionAfter: 'Meshtryoshka (Ours)'
       },
       {
         id: 'comp4',
-        before: '/3dgs_results/garden/test/ours_30000/renders/DSC08084.png',
-        after: '/ours_render/garden/DSC08084.JPG',
+        before: '3dgs_results/garden/test/ours_30000/renders/DSC08084.png',
+        after: 'ours_render/garden/DSC08084.JPG',
         captionBefore: '3D Gaussian Splatting',
         captionAfter: 'Meshtryoshka (Ours)'
       },
       {
         id: 'comp5',
-        before: '/3dgs_results/room/test/ours_30000/renders/DSCF4675.png',
-        after: '/ours_render/room/DSCF4675.JPG',
+        before: '3dgs_results/room/test/ours_30000/renders/DSCF4675.png',
+        after: 'ours_render/room/DSCF4675.JPG',
         captionBefore: '3D Gaussian Splatting',
         captionAfter: 'Meshtryoshka (Ours)'
       },
       {
         id: 'comp6',
-        before: '/3dgs_results/kitchen/test/ours_30000/renders/DSCF0664.png',
-        after: '/ours_render/kitchen/DSCF0664.JPG',
+        before: '3dgs_results/kitchen/test/ours_30000/renders/DSCF0664.png',
+        after: 'ours_render/kitchen/DSCF0664.JPG',
         captionBefore: '3D Gaussian Splatting',
         captionAfter: 'Meshtryoshka (Ours)'
       },
@@ -280,13 +281,13 @@
             <h2 class="title is-3">Overview</h2>
             <div class="content has-text-justified">
                 <img
-                src="/figures/figure_overview/figure_overview.svg"
+                src="figures/figure_overview/figure_overview.svg"
                 alt="Teaser Figure"
                 style="width: 100%; height: auto; display: block; margin-bottom: 2.5rem;"
                 />
 
                 <!-- <img
-                src="/figures/figure_teaser/figure_teaser.png"
+                src="figures/figure_teaser/figure_teaser.png"
                 alt="Teaser Figure"
                 style="width: 100%; height: auto; display: block; margin-bottom: 2.5rem;"
                 /> -->
@@ -300,7 +301,7 @@
                 </p>
 
                 <img
-                src="/figures/figure_rendering/figure_rendering.svg"
+                src="figures/figure_rendering/figure_rendering.svg"
                 alt="Teaser Figure"
                 style="width: 100%; height: auto; display: block; margin-bottom: 2.5rem;"
                 />
@@ -318,7 +319,7 @@
                 
 
                 <img
-                src="/figures/figure_marching_cubes/figure_marching_cubes.svg"
+                src="figures/figure_marching_cubes/figure_marching_cubes.svg"
                 alt="Teaser Figure"
                 style="width: 100%; height: auto; display: block; margin-bottom: 2.5rem;"
                 />
