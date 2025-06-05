@@ -22,6 +22,10 @@ const config = {
             fallback: 'index.html', // <— serve index.html for any unmatched route
             strict: false           // <— do not error on dynamic routes
           }),
+          appDir: 'app',
+          paths: {
+            base: '/meshtryoshka-website'
+          },
 	}
 };
 
