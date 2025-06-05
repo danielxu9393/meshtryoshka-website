@@ -75,6 +75,7 @@
         autoplay: false,
         pauseOnHover: true
       });
+
   
     });
   </script>
@@ -271,39 +272,82 @@
       </div>
     </section>
 
-        <!-- (1) Methods Section -->
-        <section class="section">
-          <div class="container is-max-desktop">
-            <div class="columns is-centered has-text-centered">
-              <div class="column">
-                <h2 class="title is-3">Overview</h2>
-                <div class="content has-text-justified">
-                  <img
-                    src="/figures/figure_marching_cubes/figure_marching_cubes.png"
-                    alt="Teaser Figure"
-                    style="width: 100%; height: auto; display: block;"
-                  />
+    <!-- (1) Methods Section -->
+    <section class="section">
+        <div class="container" style="width: 80%; margin: 0 auto;">
+        <div class="columns is-centered has-text-centered">
+            <div class="column">
+            <h2 class="title is-3">Overview</h2>
+            <div class="content has-text-justified">
+                <img
+                src="/figures/figure_overview/figure_overview.svg"
+                alt="Teaser Figure"
+                style="width: 100%; height: auto; display: block; margin-bottom: 2.5rem;"
+                />
 
-                  <img
-                    src="/figures/figure_teaser/figure_teaser.png"
-                    alt="Teaser Figure"
-                    style="width: 100%; height: auto; display: block;"
-                  />
-                  <p>
-                    Differentiable rendering has emerged as a powerful approach for 3D reconstruction
-                    and novel view synthesis. Today, state-of-the-art differentiable rendering methods
-                    combine a variety of custom representations of 3D geometry and appearance with
-                    specialized renderers. However, most downstream tasks in computer graphics rely on
-                    3D meshes, which provide superior portability, allow for hardware-accelerated rendering,
-                    and are at the core of most computer graphics workflows. While prior work has attempted
-                    differentiable rendering with mesh representations, these approaches are limited to
-                    object-centric scenes and fail to reconstruct large-scale, unbounded scenes.
-                  </p>
-                </div>
-              </div>
+                <!-- <img
+                src="/figures/figure_teaser/figure_teaser.png"
+                alt="Teaser Figure"
+                style="width: 100%; height: auto; display: block; margin-bottom: 2.5rem;"
+                /> -->
+                <p>
+                  We transform a standard <em>non-differentiable</em> triangle rasterizer into an effective 
+                  triangle-based differentiable renderer via several key ideas. First, we parameterize scenes 
+                  via cubic grids of signed distances and view-dependent colors. We apply differentiable
+                  marching cubes on multiple level sets of the signed distance field, to extract a set of 
+                  nested mesh shells---a <em>Meshtryoshka</em>---from a scene. Each shell is a mesh whose vertices
+                  contain color features interpolated from the grid representation.
+                </p>
+
+                <img
+                src="/figures/figure_rendering/figure_rendering.svg"
+                alt="Teaser Figure"
+                style="width: 100%; height: auto; display: block; margin-bottom: 2.5rem;"
+                />
+
+                <p>
+                  Second, we render these shells using a two-step pipeline of rasterization and deferred shading, 
+                  which allows us to utilize an off-the-shelf rasterizers. A rasterizer computes for each pixel
+                  the triangle ID and barycentric coordinates of the first ray-triangle intersection. 
+                  While this operation is non-differentiable, it can be combined with differentiable image-space interpolation
+                  to convert per-triangle-vertex values into differentiable per-pixel values.
+                  We perform this process on each mesh shell independently, and then combine the results via alpha compositing,
+                  using the signed distance values to compute per-shell opacities. As explained in our paper, this formulation
+                  is a close approximation of rendering the shells using ray tracing, allowing for gradient-based optimization.
+                </p>
+                
+
+                <img
+                src="/figures/figure_marching_cubes/figure_marching_cubes.svg"
+                alt="Teaser Figure"
+                style="width: 100%; height: auto; display: block; margin-bottom: 2.5rem;"
+                />
+                <p>
+                  Finally, to scale to real-world scenes, we use a mask to only store parameters in regions
+                  occupied by shells. To handle this, we implement the differentiable marching cubes
+                  that works on a sparse grid. We optimize coarse to fine, starting from a dense grid at
+                  low resolution. At a fixed
+                  interval, we prune and subdivide the grid by marking all voxels
+                  that contribute to triangles on the zero level set, dilating, and upscaling
+                  to form the new active grid. After
+                  extracting a new set of vertices for the upscaled active grid, we 
+                  trilinearly interpolate the previous subdivision
+                  level's signed distance and spherical harmonics values.
+
+                  We divide real-world scenes into foreground and background. The foreground
+                  is represented as a regular 3D grid, while the background is represented
+                  as a set of six truncated frustums resembling a tesseract in 3D. Each frustum
+                  composes of frustum-shaped voxels which naturally are larger in proportion to the distance
+                  from the scene center, ensuring that farther regions are represented
+                  more sparsely.
+                  
+                </p>
+      
             </div>
-          </div>
-        </section>
+            </div>
+        </div>
+        </div>
+    </section>
   
     <!-- (2) Image-Comparisons (unchanged) -->
     <section class="section">
