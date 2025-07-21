@@ -106,7 +106,7 @@
                 </span>
                 <span class="mr-4">
                   <a href="https://orcid.org/0009-0002-5829-2192" target="_blank">George Kopanas</a>
-                  <sup>³</sup>
+                  <sup>3, 4</sup>
                 </span>
                 <span>
                   <a href="https://orcid.org/0000-0002-0107-5704" target="_blank">Vincent Sitzmann</a>
@@ -120,6 +120,7 @@
                 <span class="mr-4"><sup>¹</sup> Massachusetts Institute of Technology</span>
                 <span class="mr-4"><sup>²</sup> University of Washington</span>
                 <span><sup>³</sup> Runway AI, Inc.</span>
+                <span><sup>³</sup> Google, Inc.</span>
               </div>
               <div class="buttons is-centered">
                 <a href="meshtryoshka.pdf" class="button is-dark is-rounded">
