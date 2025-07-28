@@ -114,7 +114,7 @@
                 </span>
               </div>
               <div class="is-size-5">
-                <sup>*</sup> Denotes equal contribution
+                <sup>*</sup> denotes equal contribution; order determined by coinflip
               </div>
               <div class="is-size-5 mb-4">
                 <span class="mr-4"><sup>1</sup> Massachusetts Institute of Technology</span>
