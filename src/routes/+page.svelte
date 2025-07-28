@@ -335,7 +335,7 @@
         </div>
     </section>
 
-    <section class="section" id="results">
+    <!-- <section class="section" id="results">
     <div class="container is-max-desktop">
         <h2 class="title is-3 has-text-centered mb-4">Results</h2>
 
@@ -388,7 +388,7 @@
         <p class="is-size-7 has-text-grey has-text-centered">Metric: PSNR (dB), rounded to two decimals.</p>
         </div>
     </div>
-    </section>
+    </section> -->
   
     <!-- (2) Image-Comparisons (unchanged) -->
     <section class="section">
