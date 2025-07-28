@@ -287,7 +287,7 @@
                   triangle-based differentiable renderer via several key ideas. First, we parameterize scenes 
                   via cubic grids of signed distances and view-dependent colors. We apply differentiable
                   marching cubes on multiple level sets of the signed distance field, to extract a set of 
-                  nested mesh shells---a <em>Meshtryoshka</em>---from a scene. Each shell is a mesh whose vertices
+                  nested mesh shells—a <em>Meshtryoshka</em>—from a scene. Each shell is a mesh whose vertices
                   contain color features interpolated from the grid representation.
                 </p>
 
@@ -298,7 +298,7 @@
                 />
 
                 <p>
-                  Second, we render these shells using a two-step pipeline of rasterization and deferred shading, 
+                  We render these shells using a two-step pipeline of rasterization and deferred shading, 
                   which allows us to utilize an off-the-shelf rasterizer. A rasterizer computes for each pixel
                   the triangle ID and barycentric coordinates of the first ray-triangle intersection. 
                   While this operation is non-differentiable, it can be combined with differentiable image-space interpolation
@@ -321,7 +321,7 @@
                   low resolution, and periodically subdividing. 
 
                   We divide real-world scenes into foreground and background. The foreground
-                  is represented as a regular 3D grid, while the background is represented
+                  is represented as a normal 3D grid, while the background is represented
                   as a set of six truncated frustums resembling a tesseract in 3D. Each frustum
                   composes of frustum-shaped voxels which grow larger in proportion to the distance
                   from the scene center, ensuring that farther regions are represented
