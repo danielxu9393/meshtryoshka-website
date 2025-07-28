@@ -63,7 +63,7 @@
       // - You can pass options like slidesToShow, autoplay, etc.
       bulmaCarousel.attach('#trajectory-carousel', {
         slidesToScroll: 1,
-        slidesToShow: 3,
+        slidesToShow: 2,
         infinite: true,
         autoplay: false,
         pauseOnHover: true
@@ -94,15 +94,15 @@
               <div class="is-size-5">
                 <span class="mr-4">
                   <a href="https://orcid.org/0000-0002-1223-4475" target="_blank">David Charatan</a>
-                  <sup>* ¹</sup>
+                  <sup>* 1</sup>
                 </span>
                 <span class="mr-4">
                   <a href="https://orcid.org/0009-0003-4982-6671" target="_blank">Daniel Xu</a>
-                  <sup>* ¹</sup>
+                  <sup>* 1</sup>
                 </span>
                 <span class="mr-4">
                   <a href="https://orcid.org/0009-0005-5300-5475" target="_blank">Rick Szeliski</a>
-                  <sup>²</sup>
+                  <sup>2</sup>
                 </span>
                 <span class="mr-4">
                   <a href="https://orcid.org/0009-0002-5829-2192" target="_blank">George Kopanas</a>
@@ -110,17 +110,17 @@
                 </span>
                 <span>
                   <a href="https://orcid.org/0000-0002-0107-5704" target="_blank">Vincent Sitzmann</a>
-                  <sup>¹</sup>
+                  <sup>1</sup>
                 </span>
               </div>
               <div class="is-size-5">
                 <sup>*</sup> Denotes equal contribution
               </div>
               <div class="is-size-5 mb-4">
-                <span class="mr-4"><sup>¹</sup> Massachusetts Institute of Technology</span>
-                <span class="mr-4"><sup>²</sup> University of Washington</span>
-                <span><sup>³</sup> Runway AI, Inc.</span>
-                <span><sup>³</sup> Google, Inc.</span>
+                <span class="mr-4"><sup>1</sup> Massachusetts Institute of Technology</span>
+                <span class="mr-4"><sup>2</sup> University of Washington</span>
+                <span><sup>3</sup> Runway AI, Inc.</span>
+                <span><sup>4</sup> Google, Inc.</span>
               </div>
               <div class="buttons is-centered">
                 <a href="meshtryoshka.pdf" class="button is-dark is-rounded">
@@ -131,10 +131,6 @@
                 <a href="https://github.com/dcharatan/triangle-splatting" class="button is-dark is-rounded">
                   <span class="icon"><i class="fab fa-github"></i></span>
                   <span>Code</span>
-                </a>
-                <a href="ours_render.zip" class="button is-dark is-rounded">
-                  <span class="icon"><i class="far fa-clipboard"></i></span>
-                  <span>Results (ZIP)</span>
                 </a>
               </div>
             </div>
@@ -151,7 +147,7 @@
             The “results-carousel” class is optional—only here so you can
             write custom CSS if you want to override the Bulma-Carousel defaults.
           -->
-          <h2 class="title is-3 has-text-centered mb-4">Videos</h2>
+          <h2 class="title is-2 has-text-centered mb-4">Videos</h2>
 
           <div id="trajectory-carousel" class="carousel results-carousel">
             <div class="item">
@@ -286,12 +282,6 @@
                 alt="Teaser Figure"
                 style="width: 100%; height: auto; display: block; margin-bottom: 2.5rem;"
                 />
-
-                <!-- <img
-                src="figures/figure_teaser/figure_teaser.png"
-                alt="Teaser Figure"
-                style="width: 100%; height: auto; display: block; margin-bottom: 2.5rem;"
-                /> -->
                 <p>
                   We transform a standard <em>non-differentiable</em> triangle rasterizer into an effective 
                   triangle-based differentiable renderer via several key ideas. First, we parameterize scenes 
@@ -309,7 +299,7 @@
 
                 <p>
                   Second, we render these shells using a two-step pipeline of rasterization and deferred shading, 
-                  which allows us to utilize an off-the-shelf rasterizers. A rasterizer computes for each pixel
+                  which allows us to utilize an off-the-shelf rasterizer. A rasterizer computes for each pixel
                   the triangle ID and barycentric coordinates of the first ray-triangle intersection. 
                   While this operation is non-differentiable, it can be combined with differentiable image-space interpolation
                   to convert per-triangle-vertex values into differentiable per-pixel values.
@@ -325,21 +315,15 @@
                 style="width: 100%; height: auto; display: block; margin-bottom: 2.5rem;"
                 />
                 <p>
-                  Finally, to scale to real-world scenes, we use a mask to only store parameters in regions
-                  occupied by shells. To handle this, we implement the differentiable marching cubes
-                  that works on a sparse grid. We optimize coarse to fine, starting from a dense grid at
-                  low resolution. At a fixed
-                  interval, we prune and subdivide the grid by marking all voxels
-                  that contribute to triangles on the zero level set, dilating, and upscaling
-                  to form the new active grid. After
-                  extracting a new set of vertices for the upscaled active grid, we 
-                  trilinearly interpolate the previous subdivision
-                  level's signed distance and spherical harmonics values.
+                  To scale to real-world scenes, we periodically compute an occupancy mask over the cubic grid, allowing us
+                  to only store parameters in occupied parts of space. We implement our differentiable marching cubes
+                  to work on a sparse grid. We optimize coarse to fine, starting from a dense grid at
+                  low resolution, and periodically subdividing. 
 
                   We divide real-world scenes into foreground and background. The foreground
                   is represented as a regular 3D grid, while the background is represented
                   as a set of six truncated frustums resembling a tesseract in 3D. Each frustum
-                  composes of frustum-shaped voxels which naturally are larger in proportion to the distance
+                  composes of frustum-shaped voxels which grow larger in proportion to the distance
                   from the scene center, ensuring that farther regions are represented
                   more sparsely.
                   
