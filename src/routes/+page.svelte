@@ -334,6 +334,61 @@
         </div>
         </div>
     </section>
+
+    <section class="section" id="results">
+    <div class="container is-max-desktop">
+        <h2 class="title is-3 has-text-centered mb-4">Results</h2>
+
+        <div class="table-container">
+        <table class="table is-striped is-hoverable is-fullwidth is-bordered">
+            <thead>
+            <tr>
+                <th>Evaluation</th>
+                <th class="has-text-right">bicycle</th>
+                <th class="has-text-right">bonsai</th>
+                <th class="has-text-right">counter</th>
+                <th class="has-text-right">flowers</th>
+                <th class="has-text-right">garden</th>
+                <th class="has-text-right">kitchen</th>
+                <th class="has-text-right">room</th>
+                <th class="has-text-right">stump</th>
+                <th class="has-text-right">treehill</th>
+                <th class="has-text-right">mean</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <th>All layers</th>
+                <td class="has-text-right">22.14</td>
+                <td class="has-text-right">27.62</td>
+                <td class="has-text-right">25.57</td>
+                <td class="has-text-right">19.04</td>
+                <td class="has-text-right">24.56</td>
+                <td class="has-text-right">27.04</td>
+                <td class="has-text-right">27.42</td>
+                <td class="has-text-right">24.41</td>
+                <td class="has-text-right">21.27</td>
+                <td class="has-text-right">24.34</td>
+            </tr>
+            <tr>
+                <th>Zero Level Set</th>
+                <td class="has-text-right">22.13</td>
+                <td class="has-text-right">27.53</td>
+                <td class="has-text-right">25.53</td>
+                <td class="has-text-right">19.03</td>
+                <td class="has-text-right">24.52</td>
+                <td class="has-text-right">26.97</td>
+                <td class="has-text-right">27.33</td>
+                <td class="has-text-right">24.38</td>
+                <td class="has-text-right">21.25</td>
+                <td class="has-text-right">24.30</td>
+            </tr>
+            </tbody>
+        </table>
+        <p class="is-size-7 has-text-grey has-text-centered">Metric: PSNR (dB), rounded to two decimals.</p>
+        </div>
+    </div>
+    </section>
   
     <!-- (2) Image-Comparisons (unchanged) -->
     <section class="section">
