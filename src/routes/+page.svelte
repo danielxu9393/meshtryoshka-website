@@ -123,10 +123,10 @@
                 <span><sup>4</sup> Google, Inc.</span>
               </div>
               <div class="buttons is-centered">
-                <a href="meshtryoshka.pdf" class="button is-dark is-rounded">
-                  <!-- <span class="icon"><i class="fas fa-file-pdf"></i></span> -->
-                  <span class="icon"><i class="ai ai-arxiv"></i></span>
-                  <span>Arxiv</span>
+                <a href="/meshtryoshka-website/paper.pdf" class="button is-dark is-rounded">
+                  <span class="icon"><i class="fas fa-file-pdf"></i></span>
+                  <!-- <span class="icon"><i class="ai ai-arxiv"></i></span> -->
+                  <span>Paper</span>
                 </a>
                 <a href="https://github.com/dcharatan/triangle-splatting" class="button is-dark is-rounded">
                   <span class="icon"><i class="fab fa-github"></i></span>
