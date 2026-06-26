@@ -127,7 +127,7 @@
                   <!-- <span class="icon"><i class="ai ai-arxiv"></i></span> -->
                   <span>Paper</span>
                 </a>
-                <a href="https://github.com/danielxu9393/triangle-splatting" class="button is-dark is-rounded">
+                <a href="https://github.com/dcharatan/meshtryoshka" class="button is-dark is-rounded">
                   <span class="icon"><i class="fab fa-github"></i></span>
                   <span>Code</span>
                 </a>
