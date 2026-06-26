@@ -106,7 +106,7 @@
                 </span>
                 <span class="mr-4">
                   <a href="https://orcid.org/0009-0002-5829-2192" target="_blank">George Kopanas</a>
-                  <sup>3, 4</sup>
+                  <sup>3</sup>
                 </span>
                 <span>
                   <a href="https://orcid.org/0000-0002-0107-5704" target="_blank">Vincent Sitzmann</a>
@@ -119,8 +119,7 @@
               <div class="is-size-5 mb-4">
                 <span class="mr-4"><sup>1</sup> Massachusetts Institute of Technology</span>
                 <span class="mr-4"><sup>2</sup> University of Washington</span>
-                <span><sup>3</sup> Runway AI, Inc.</span>
-                <span><sup>4</sup> Google, Inc.</span>
+                <span><sup>3</sup> Google DeepMind</span>
               </div>
               <div class="buttons is-centered">
                 <a href="/meshtryoshka-website/paper.pdf" class="button is-dark is-rounded">
@@ -131,6 +130,10 @@
                 <a href="https://github.com/danielxu9393/triangle-splatting" class="button is-dark is-rounded">
                   <span class="icon"><i class="fab fa-github"></i></span>
                   <span>Code</span>
+                </a>
+                <a href="https://www.youtube.com/watch?v=5alILkdTqh0" class="button is-dark is-rounded">
+                  <span class="icon"><i class="fab fa-youtube"></i></span>
+                  <span>Talk</span>
                 </a>
               </div>
             </div>
