@@ -29,5 +29,11 @@ python3 -m http.server 8000
 
 ## Deploying
 
-GitHub Pages is published from `docs/` by `.github/workflows/deploy.yml` on every
-push to `main`. The workflow just uploads the folder as-is — no build.
+GitHub Pages serves the site straight from this branch. In the repo's
+**Settings → Pages**, set:
+
+- **Source:** Deploy from a branch
+- **Branch:** `main`, folder `/docs`
+
+No build step runs. The `docs/.nojekyll` file disables Jekyll so that asset
+files beginning with an underscore (e.g. `_DSC8679.mp4`) are served correctly.
