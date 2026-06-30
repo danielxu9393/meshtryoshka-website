@@ -1,38 +1,33 @@
-# sv
+# Meshtryoshka project website
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+Project page for *Meshtryoshka: Differentiable Mesh Rendering for Unbounded Scenes*.
 
-## Creating a project
+This is a static, dependency-free site — a single hand-written HTML file plus
+its assets. There is no build step or framework.
 
-If you're seeing this, you've probably already done this step. Congrats!
+## Structure
 
-```bash
-# create a new project in the current directory
-npx sv create
-
-# create a new project in my-app
-npx sv create my-app
+```
+docs/
+  index.html        # the entire site (inline CSS + a little vanilla JS)
+  paper.pdf
+  final_videos/     # result + optimization-progress videos
+  figures/          # method figures (SVG/PNG)
+  ours_render/      # "after" images for the comparison sliders
+  3dgs_results/     # "before" images for the comparison sliders
 ```
 
 ## Developing
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+Open `docs/index.html` directly, or serve the folder so relative paths resolve:
 
 ```bash
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
+cd docs
+python3 -m http.server 8000
+# then visit http://localhost:8000
 ```
 
-## Building
+## Deploying
 
-To create a production version of your app:
-
-```bash
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+GitHub Pages is published from `docs/` by `.github/workflows/deploy.yml` on every
+push to `main`. The workflow just uploads the folder as-is — no build.

@@ -1,61 +1,438 @@
 <!doctype html>
 <html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" href="/meshtryoshka-website/favicon.png" />
-        <!-- *** Academicons from CDN (new arXiv cube) *** -->
-        <link rel="stylesheet"
-        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css" />
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Meshtryoshka: Differentiable Mesh Rendering for Unbounded Scenes</title>
+    <meta
+      name="description"
+      content="Meshtryoshka: a differentiable mesh rendering framework using nested mesh shells and an off-the-shelf triangle rasterizer, scaling to unbounded real-world scenes."
+    />
+    <style>
+      :root {
+        --text: #1a1a1a;
+        --muted: #6b7280;
+        --line: #e5e7eb;
+        --accent: #1f3a8a;
+        --max: 820px;
+        --max-wide: 940px;
+      }
 
-        <!-- <script>
-            window.MathJax = {
-              tex: {
-                inlineMath: [['$', '$'], ['\\(', '\\)']],   // if you also want $…$ or \(…\) delimiters
-              },
-              svg: {
-                fontCache: 'global'
-              },
-              startup: {
-                // Keep the default behavior of typesetting anything it finds at page load
-                ready: () => {
-                  return MathJax.startup.defaultReady();
-                }
-              }
-            };
-          </script>
-        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script> -->
+      * { box-sizing: border-box; }
 
-		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		
-		<link rel="modulepreload" href="/meshtryoshka-website/app/immutable/entry/start.yWa0rnzH.js">
-		<link rel="modulepreload" href="/meshtryoshka-website/app/immutable/chunks/C4msvpzf.js">
-		<link rel="modulepreload" href="/meshtryoshka-website/app/immutable/chunks/BOemtITd.js">
-		<link rel="modulepreload" href="/meshtryoshka-website/app/immutable/chunks/0U86_LJp.js">
-		<link rel="modulepreload" href="/meshtryoshka-website/app/immutable/chunks/VcqZ7kEe.js">
-		<link rel="modulepreload" href="/meshtryoshka-website/app/immutable/entry/app.DQhcCjPX.js">
-		<link rel="modulepreload" href="/meshtryoshka-website/app/immutable/chunks/BCadlSJ_.js">
-		<link rel="modulepreload" href="/meshtryoshka-website/app/immutable/chunks/9qKrJ915.js">
-		<link rel="modulepreload" href="/meshtryoshka-website/app/immutable/chunks/Dvt7mzJo.js">
-	</head>
-	<body data-sveltekit-preload-data="hover">
-		<div style="display: contents">
-			<script>
-				{
-					__sveltekit_rf2m8g = {
-						base: "/meshtryoshka-website",
-						assets: "/meshtryoshka-website"
-					};
+      html { -webkit-text-size-adjust: 100%; }
 
-					const element = document.currentScript.parentElement;
+      body {
+        margin: 0;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica,
+          Arial, sans-serif;
+        color: var(--text);
+        background: #ffffff;
+        line-height: 1.6;
+        font-size: 16px;
+        -webkit-font-smoothing: antialiased;
+        text-rendering: optimizeLegibility;
+      }
 
-					Promise.all([
-						import("/meshtryoshka-website/app/immutable/entry/start.yWa0rnzH.js"),
-						import("/meshtryoshka-website/app/immutable/entry/app.DQhcCjPX.js")
-					]).then(([kit, app]) => {
-						kit.start(app, element);
-					});
-				}
-			</script>
-		</div>
-	</body>
+      a { color: var(--accent); text-decoration: none; }
+      a:hover { text-decoration: underline; }
+
+      .wrap { max-width: var(--max); margin: 0 auto; padding: 0 24px; }
+      .wrap-wide { max-width: var(--max-wide); margin: 0 auto; padding: 0 24px; }
+
+      /* ---------- Header ---------- */
+      header { padding: 56px 0 32px; text-align: center; }
+
+      h1 {
+        font-size: 30px;
+        line-height: 1.25;
+        font-weight: 700;
+        letter-spacing: -0.01em;
+        margin: 0 0 20px;
+      }
+
+      .authors { font-size: 16px; margin: 0 0 6px; }
+      .authors a { color: var(--text); }
+      .authors a:hover { color: var(--accent); }
+      .authors .sep { display: inline-block; }
+
+      .affil { font-size: 14px; color: var(--muted); margin: 4px 0; }
+      .note { font-size: 13px; color: var(--muted); margin: 4px 0 0; }
+
+      .links {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 22px;
+      }
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        padding: 8px 16px;
+        border: 1px solid var(--text);
+        border-radius: 999px;
+        color: var(--text);
+        font-size: 14px;
+        font-weight: 500;
+      }
+      .btn:hover { background: var(--text); color: #fff; text-decoration: none; }
+      .btn svg { width: 15px; height: 15px; fill: currentColor; }
+
+      /* ---------- Sections ---------- */
+      section { padding: 36px 0; }
+      h2 {
+        font-size: 22px;
+        font-weight: 700;
+        text-align: center;
+        margin: 0 0 6px;
+      }
+      h2 + .sub {
+        text-align: center;
+        color: var(--muted);
+        font-size: 14px;
+        margin: 0 0 24px;
+      }
+      h2:last-child { margin-bottom: 24px; }
+      .prose p { margin: 0 0 16px; text-align: justify; }
+      .prose p:last-child { margin-bottom: 0; }
+
+      hr { border: none; border-top: 1px solid var(--line); margin: 0; }
+
+      /* ---------- Video / media grids ---------- */
+      .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+      .grid video {
+        width: 100%;
+        height: auto;
+        display: block;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: #000;
+      }
+
+      figure { margin: 0 0 28px; }
+      figure:last-child { margin-bottom: 0; }
+      figure img { width: 100%; height: auto; display: block; }
+
+      .overview-prose p { margin: 0 0 28px; text-align: justify; }
+
+      /* ---------- Before / after comparison ---------- */
+      .ba {
+        position: relative;
+        overflow: hidden;
+        border-radius: 8px;
+        border: 1px solid var(--line);
+        --pos: 50%;
+        user-select: none;
+        line-height: 0;
+      }
+      .ba img { width: 100%; height: auto; display: block; }
+      .ba .after { position: relative; } /* in flow: sets the container height */
+      .ba .before { position: absolute; inset: 0; clip-path: inset(0 calc(100% - var(--pos)) 0 0); }
+      .ba input[type="range"] {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        opacity: 0;
+        cursor: ew-resize;
+      }
+      .ba .divider {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: var(--pos);
+        width: 2px;
+        margin-left: -1px;
+        background: #fff;
+        box-shadow: 0 0 3px rgba(0, 0, 0, 0.45);
+        pointer-events: none;
+      }
+      .ba .divider::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 26px;
+        height: 26px;
+        transform: translate(-50%, -50%);
+        border-radius: 50%;
+        background: #fff;
+        box-shadow: 0 0 4px rgba(0, 0, 0, 0.4);
+      }
+      .ba .lbl {
+        position: absolute;
+        bottom: 10px;
+        padding: 3px 9px;
+        font-size: 12px;
+        line-height: 1.4;
+        color: #fff;
+        background: rgba(0, 0, 0, 0.6);
+        border-radius: 5px;
+        pointer-events: none;
+      }
+      .ba .lbl-l { left: 10px; }
+      .ba .lbl-r { right: 10px; }
+
+      footer {
+        text-align: center;
+        color: var(--muted);
+        font-size: 13px;
+        padding: 40px 0 56px;
+      }
+
+      /* ---------- Responsive ---------- */
+      @media (max-width: 640px) {
+        h1 { font-size: 24px; }
+        .grid { grid-template-columns: 1fr; }
+      }
+    </style>
+  </head>
+
+  <body>
+    <header>
+      <div class="wrap">
+        <h1>Meshtryoshka: Differentiable Mesh Rendering for Unbounded Scenes</h1>
+
+        <p class="authors">
+          <span class="sep"><a href="https://orcid.org/0000-0002-1223-4475" target="_blank" rel="noopener">David Charatan</a><sup>*&nbsp;1</sup></span>&nbsp;&nbsp;
+          <span class="sep"><a href="https://orcid.org/0009-0003-4982-6671" target="_blank" rel="noopener">Daniel Xu</a><sup>*&nbsp;1</sup></span>&nbsp;&nbsp;
+          <span class="sep"><a href="https://orcid.org/0009-0005-5300-5475" target="_blank" rel="noopener">Rick Szeliski</a><sup>2</sup></span>&nbsp;&nbsp;
+          <span class="sep"><a href="https://orcid.org/0009-0002-5829-2192" target="_blank" rel="noopener">George Kopanas</a><sup>3</sup></span>&nbsp;&nbsp;
+          <span class="sep"><a href="https://orcid.org/0000-0002-0107-5704" target="_blank" rel="noopener">Vincent Sitzmann</a><sup>1</sup></span>
+        </p>
+
+        <p class="affil">
+          <sup>1</sup>&nbsp;Massachusetts Institute of Technology &nbsp;&nbsp;
+          <sup>2</sup>&nbsp;University of Washington &nbsp;&nbsp;
+          <sup>3</sup>&nbsp;Google DeepMind
+        </p>
+        <p class="note"><sup>*</sup>&nbsp;Equal contribution; order determined by coin flip.</p>
+
+        <nav class="links">
+          <a class="btn" href="paper.pdf" target="_blank" rel="noopener">
+            <svg viewBox="0 0 384 512" aria-hidden="true"><path d="M64 0C28.7 0 0 28.7 0 64V448c0 35.3 28.7 64 64 64H320c35.3 0 64-28.7 64-64V160H256c-17.7 0-32-14.3-32-32V0H64zM256 0V128H384L256 0zM112 256H272c8.8 0 16 7.2 16 16s-7.2 16-16 16H112c-8.8 0-16-7.2-16-16s7.2-16 16-16zm0 64H272c8.8 0 16 7.2 16 16s-7.2 16-16 16H112c-8.8 0-16-7.2-16-16s7.2-16 16-16z"/></svg>
+            Paper
+          </a>
+          <a class="btn" href="https://github.com/dcharatan/meshtryoshka" target="_blank" rel="noopener">
+            <svg viewBox="0 0 496 512" aria-hidden="true"><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8z"/></svg>
+            Code
+          </a>
+          <a class="btn" href="https://www.youtube.com/watch?v=5alILkdTqh0" target="_blank" rel="noopener">
+            <svg viewBox="0 0 576 512" aria-hidden="true"><path d="M549.7 124.1c-6.3-23.7-24.8-42.3-48.3-48.6C458.8 64 288 64 288 64S117.2 64 74.6 75.5c-23.5 6.3-42 24.9-48.3 48.6-11.4 42.9-11.4 132.3-11.4 132.3s0 89.4 11.4 132.3c6.3 23.7 24.8 41.5 48.3 47.8C117.2 448 288 448 288 448s170.8 0 213.4-11.5c23.5-6.3 42-24.1 48.3-47.8 11.4-42.9 11.4-132.3 11.4-132.3s0-89.4-11.4-132.3zM232 337.6V174.4L361 256l-129 81.6z"/></svg>
+            Talk
+          </a>
+        </nav>
+      </div>
+    </header>
+
+    <hr />
+
+    <!-- Videos -->
+    <section>
+      <div class="wrap-wide">
+        <h2>Videos</h2>
+        <div class="grid">
+          <video autoplay muted loop playsinline controls preload="metadata">
+            <source src="final_videos/surface_1.5_DSC07956.JPG.mp4" type="video/mp4" />
+          </video>
+          <video autoplay muted loop playsinline controls preload="metadata">
+            <source src="final_videos/surface_1.5__DSC9213.JPG.mp4" type="video/mp4" />
+          </video>
+          <video autoplay muted loop playsinline controls preload="metadata">
+            <source src="final_videos/surface_0.2__DSC9056.JPG.mp4" type="video/mp4" />
+          </video>
+          <video autoplay muted loop playsinline controls preload="metadata">
+            <source src="final_videos/surface_1.5__DSC8768.JPG.mp4" type="video/mp4" />
+          </video>
+        </div>
+      </div>
+    </section>
+
+    <hr />
+
+    <!-- Optimization Progress -->
+    <section>
+      <div class="wrap-wide">
+        <h2>Optimization Progress</h2>
+        <div class="grid">
+          <video autoplay muted loop playsinline controls preload="metadata">
+            <source src="final_videos/_DSC8679.mp4" type="video/mp4" />
+          </video>
+          <video autoplay muted loop playsinline controls preload="metadata">
+            <source src="final_videos/DSCF6017.mp4" type="video/mp4" />
+          </video>
+          <video autoplay muted loop playsinline controls preload="metadata">
+            <source src="final_videos/_DSC9040.mp4" type="video/mp4" />
+          </video>
+          <video autoplay muted loop playsinline controls preload="metadata">
+            <source src="final_videos/_DSC9293.mp4" type="video/mp4" />
+          </video>
+        </div>
+      </div>
+    </section>
+
+    <hr />
+
+    <!-- Abstract -->
+    <section>
+      <div class="wrap">
+        <h2>Abstract</h2>
+        <div class="prose">
+          <p>
+            Differentiable rendering has emerged as a powerful approach for 3D
+            reconstruction and novel view synthesis. Today, state-of-the-art
+            differentiable rendering methods combine a variety of custom
+            representations of 3D geometry and appearance with specialized
+            renderers. However, most downstream tasks in computer graphics rely
+            on 3D meshes, which provide superior portability, allow for
+            hardware-accelerated rendering, and are at the core of most computer
+            graphics workflows. While prior work has attempted differentiable
+            rendering with mesh representations, these approaches are limited to
+            object-centric scenes and fail to reconstruct large-scale, unbounded
+            scenes.
+          </p>
+          <p>
+            In this work, we introduce <em>Meshtryoshka</em>, a novel mesh
+            differentiable rendering framework that combines an off-the-shelf
+            triangle rasterizer with a 3D representation that consists of nested
+            mesh shells which resemble a matryoshka doll. In every forward pass,
+            the mesh shells are extracted anew from a 3D signed distance function
+            via iso-surface extraction, and the opacities for each vertex are
+            computed as a function of signed distance. Each mesh shell is then
+            rasterized independently, and the final image is created via alpha
+            compositing. Crucially, mesh vertex positions are updated only
+            indirectly via gradients that flow through the opacity values into
+            the signed distance function, and hence, our method is compatible
+            with off-the-shelf mesh renderers that need not be differentiable
+            with respect to vertex positions.
+          </p>
+          <p>
+            On object-centric scenes, our method performs competitively with
+            surface-based differentiable rendering techniques. To the best of our
+            knowledge, our method is the first differentiable mesh rendering
+            method that scales to unbounded, real-world 3D scenes, where it
+            yields high-quality novel view synthesis results approaching those of
+            state-of-the-art, non-mesh methods. Our method suggests that it may be
+            possible to solve the differentiable rendering problem without relying
+            on specialized renderers, only using conventional tools from the
+            computer graphics toolbox.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <hr />
+
+    <!-- Overview -->
+    <section>
+      <div class="wrap">
+        <h2>Overview</h2>
+        <div class="overview-prose">
+          <figure>
+            <img src="figures/figure_overview/figure_overview.svg" alt="Overview figure" />
+          </figure>
+          <p>
+            We transform a standard <em>non-differentiable</em> triangle
+            rasterizer into an effective triangle-based differentiable renderer
+            via several key ideas. First, we parameterize scenes via cubic grids
+            of signed distances and view-dependent colors. We apply differentiable
+            marching cubes on multiple level sets of the signed distance field, to
+            extract a set of nested mesh shells&mdash;a <em>Meshtryoshka</em>&mdash;from
+            a scene. Each shell is a mesh whose vertices contain color features
+            interpolated from the grid representation.
+          </p>
+
+          <figure>
+            <img src="figures/figure_rendering/figure_rendering.svg" alt="Rendering pipeline figure" />
+          </figure>
+          <p>
+            We render these shells using a two-step pipeline of rasterization and
+            deferred shading, which allows us to utilize an off-the-shelf
+            rasterizer. A rasterizer computes for each pixel the triangle ID and
+            barycentric coordinates of the first ray-triangle intersection. While
+            this operation is non-differentiable, it can be combined with
+            differentiable image-space interpolation to convert
+            per-triangle-vertex values into differentiable per-pixel values. We
+            perform this process on each mesh shell independently, and then combine
+            the results via alpha compositing, using the signed distance values to
+            compute per-shell opacities. As explained in our paper, this
+            formulation is a close approximation of rendering the shells using ray
+            tracing, allowing for gradient-based optimization.
+          </p>
+
+          <figure>
+            <img src="figures/figure_marching_cubes/figure_marching_cubes.svg" alt="Sparse marching cubes figure" />
+          </figure>
+          <p>
+            To scale to real-world scenes, we periodically compute an occupancy
+            mask over the cubic grid, allowing us to only store parameters in
+            occupied parts of space. We implement our differentiable marching
+            cubes to work on a sparse grid. We optimize coarse to fine, starting
+            from a dense grid at low resolution, and periodically subdividing. We
+            divide real-world scenes into foreground and background. The foreground
+            is represented as a normal 3D grid, while the background is represented
+            as a set of six truncated frustums resembling a tesseract in 3D. Each
+            frustum composes of frustum-shaped voxels which grow larger in
+            proportion to the distance from the scene center, ensuring that farther
+            regions are represented more sparsely.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <hr />
+
+    <!-- Image Comparisons -->
+    <section>
+      <div class="wrap-wide">
+        <h2>Image Comparisons</h2>
+        <p class="sub">Drag the slider to compare. Left: 3D Gaussian Splatting &middot; Right: Meshtryoshka (Ours)</p>
+        <div class="grid" id="comparisons">
+          <!-- comparison sliders injected by the script below -->
+        </div>
+      </div>
+    </section>
+
+    <hr />
+
+    <footer>
+      <div class="wrap">
+        Meshtryoshka &middot; MIT, University of Washington, Google DeepMind
+      </div>
+    </footer>
+
+    <script>
+      // Before/after comparison sliders, built from data (no dependencies).
+      const comparisons = [
+        { before: "3dgs_results/stump/test/ours_30000/renders/_DSC9221.png", after: "ours_render/stump/_DSC9221.JPG" },
+        { before: "3dgs_results/bicycle/test/ours_30000/renders/_DSC8752.png", after: "ours_render/bicycle/_DSC8752.JPG" },
+        { before: "3dgs_results/bonsai/test/ours_30000/renders/DSCF5605.png", after: "ours_render/bonsai/DSCF5605.JPG" },
+        { before: "3dgs_results/garden/test/ours_30000/renders/DSC08084.png", after: "ours_render/garden/DSC08084.JPG" },
+        { before: "3dgs_results/room/test/ours_30000/renders/DSCF4675.png", after: "ours_render/room/DSCF4675.JPG" },
+        { before: "3dgs_results/kitchen/test/ours_30000/renders/DSCF0664.png", after: "ours_render/kitchen/DSCF0664.JPG" },
+      ];
+
+      const container = document.getElementById("comparisons");
+      for (const { before, after } of comparisons) {
+        const fig = document.createElement("div");
+        fig.className = "ba";
+        fig.innerHTML = `
+          <img class="after" src="${after}" alt="Meshtryoshka (Ours)" />
+          <img class="before" src="${before}" alt="3D Gaussian Splatting" />
+          <span class="lbl lbl-l">3D Gaussian Splatting</span>
+          <span class="lbl lbl-r">Meshtryoshka (Ours)</span>
+          <div class="divider"></div>
+          <input type="range" min="0" max="100" value="50" aria-label="Comparison slider" />
+        `;
+        const range = fig.querySelector("input");
+        range.addEventListener("input", () => {
+          fig.style.setProperty("--pos", range.value + "%");
+        });
+        container.appendChild(fig);
+      }
+    </script>
+  </body>
 </html>
